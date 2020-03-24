@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8" />
+    <title>🐇のご注文</title>
+    <style>
+        body {
+            display: flex;
+            flex-wrap: wrap;
+            width: 900px;
+            margin: 0;
+            background: skyblue;
+        }
+        .box {
+            width: 90px;
+            height: 90px;
+            margin: 0;
+            background: springgreen;
+        }
+        .rabbit {
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+        }
+        .rule{
+            background:pink;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        var timer, timer2, l = 1, x = 1000, r = Math.floor(Math.random() * 100);
+        for (i = 0; i < 100; i++) {
+            const div = document.createElement('div');
+            div.classList.add('box');
+            if (i == r) div.classList.add('rabbit');
+            div.addEventListener('click', () => {
+                if (div.classList.contains('rabbit')) {
+                    clearInterval(timer);
+                    alert("おめでとうございます！");
+                    const div1 = document.body.childNodes[r + 2];
+                    div1.classList.remove("rabbit");
+                    document.menu.elements[0].value = 30;
+                    l = parseInt(document.menu.elements[1].value) + 1;
+                    document.menu.elements[1].value = l; x = 1000 / l;
+                    clearInterval(timer); newGame();
+                }
+            })
+            document.body.appendChild(div);
+        }
+        timer = setInterval(() => {
+            const div = document.body.childNodes[r + 2];
+            div.classList.remove('rabbit');
+            switch (Math.floor(Math.random() * 9)) {
+                case 0: if (r < 90) r += 10; else r -= 10; break;
+                case 1: if (r % 10 < 9) r++; else r--; break;
+                case 2: if (r > 9) r -= 10; else r += 10; break;
+                case 3: if (r % 10 > 0) r--; else r++; break;
+                case 4: if (r < 90) r += 10; else r -= 10; if (r % 10 < 9) r++; else r--; break;
+                case 5: if (r > 9) r -= 10; else r += 10; if (r % 10 < 9) r++; else r--; break;
+                case 6: if (r < 90) r += 10; else r -= 10; if (r % 10 > 0) r--; else r++; break;
+                case 7: if (r > 9) r -= 10; else r += 10; if (r % 10 > 0) r--; else r++; break;
+                default:
+            }
+            const div1 = document.body.childNodes[r + 2];
+            div1.classList.add('rabbit');
+        },
+            1000);
+        timer2 = setInterval(() => {
+            const time = parseInt(document.menu.elements[0].value) - 1;
+            document.menu.elements[0].value = time;
+            if (time == 0) {
+                alert("残念！今回のあなたのレベルは"+l+"でした！");
+                window.location.reload();
+            }
+        },
+            1000);
+        function newGame() {
+            r = Math.floor(Math.random() * 100);
+            const div = document.body.childNodes[r + 2];
+            div.classList.add('rabbit');
+            timer = setInterval(() => {
+                const div = document.body.childNodes[r + 2];
+                div.classList.remove('rabbit');
+                switch (Math.floor(Math.random() * 8)) {
+                    case 0: if (r < 90) r += 10; else r -= 10; break;
+                    case 1: if (r % 10 < 9) r++; else r--; break;
+                    case 2: if (r > 9) r -= 10; else r += 10; break;
+                    case 3: if (r % 10 > 0) r--; else r++; break;
+                    case 4: if (r < 90) r += 10; else r -= 10; if (r % 10 < 9) r++; else r--; break;
+                    case 5: if (r > 9) r -= 10; else r += 10; if (r % 10 < 9) r++; else r--; break;
+                    case 6: if (r < 90) r += 10; else r -= 10; if (r % 10 > 0) r--; else r++; break;
+                    case 7: if (r > 9) r -= 10; else r += 10; if (r % 10 > 0) r--; else r++; break;
+                    default:
+                }
+                const div1 = document.body.childNodes[r + 2];
+                div1.classList.add('rabbit');
+            },
+                x);
+        }
+    </script>
+    <form name="menu">
+        あと<input type="text" value="30" readonly />秒
+        レベル<input type="text" value="1" readonly />
+        <input type="button" value="リセット" />
+    </form>
+    <div class="rule">
+        <h1>ルール</h1>
+        <p>①30秒以内に🐇を捕まえてください</p>
+        <p>②レベルが上がれば上がるほど🐇は早くなります。</p>
+    </div>
+</body>
+</html>
